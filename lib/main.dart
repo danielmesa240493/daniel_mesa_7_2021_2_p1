@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_memes_parcial/screens/meme_screen.dart';
+import 'package:flutter_memes_parcial/screens/memes_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Memes App',
-      home: MemeScreen(),
+      home: MemesScreen(),
     );
   }
 }
