@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_memes_parcial/components/loader_component.dart';
 import 'package:flutter_memes_parcial/helpers/constans.dart';
 import 'package:flutter_memes_parcial/models/meme.dart';
+import 'package:flutter_memes_parcial/screens/meme_screen.dart';
 import 'package:http/http.dart' as http;
 
 class MemesScreen extends StatefulWidget {
@@ -91,7 +92,16 @@ class _MemesScreenState extends State<MemesScreen> {
       children: _memes.map((e) {
         return Card(
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => MemeScreen(
+                    meme: e,
+                  )
+                )
+              );
+            },
             child: Container(
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
