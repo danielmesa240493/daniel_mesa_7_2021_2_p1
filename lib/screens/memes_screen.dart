@@ -140,7 +140,7 @@ class _MemesScreenState extends State<MemesScreen> {
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
               child: Column(
-                children: [
+                children: <Widget>[
                   Text(
                     e.submissionTitle,
                     style: TextStyle(

@@ -45,6 +45,8 @@ class _MemeScreenState extends State<MemeScreen> {
         padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
+            Image.network(widget.meme.submissionUrl),
+            SizedBox(height: 5,),
             Text('URL Image: ', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
               widget.meme.submissionUrl,
