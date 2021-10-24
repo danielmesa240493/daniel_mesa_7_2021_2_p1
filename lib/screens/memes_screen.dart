@@ -18,6 +18,8 @@ class MemesScreen extends StatefulWidget {
 class _MemesScreenState extends State<MemesScreen> {
   List<Meme> _memes = [];
   bool _showLoader = false;
+  String _filter = '';
+  bool _isFiltered = false;
 
   @override
   void initState() {
@@ -30,6 +32,17 @@ class _MemesScreenState extends State<MemesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Memes'),
+        actions: <Widget>[
+          _isFiltered
+          ? IconButton(
+            onPressed: _removefilter, 
+            icon: Icon(Icons.filter_none)
+          )
+          : IconButton(
+            onPressed: _showfilter, 
+            icon: Icon(Icons.filter_alt)
+          )
+        ],
       ),
       body: Center(
         child: _showLoader ? LoaderComponent(text: 'Por favor espere...') : _getContent(),
@@ -77,7 +90,9 @@ class _MemesScreenState extends State<MemesScreen> {
       child: Container(
         margin: EdgeInsets.all(20),
         child: Text(
-          'No hay Memes.',
+          _isFiltered
+          ? 'No hay memes con ese criterio de busqueda.'
+          : 'No hay Memes.',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold
@@ -127,5 +142,73 @@ class _MemesScreenState extends State<MemesScreen> {
         );
       }).toList(),
     );
+  }
+
+  void _removefilter() {
+    setState(() {
+      _isFiltered = false;
+    });
+    _getMemes();
+  }
+
+  void _showfilter() {
+    showDialog(
+      context: context, 
+      builder: (context){
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text('Filtrar Memes'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Escriba la primera letra del meme'),
+              SizedBox(height: 10,),
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: 'Criterio de Búsqueda...',
+                  labelText: 'Buscar',
+                  suffixIcon: Icon(Icons.search)
+                ),
+                onChanged: (value){
+                    _filter = value;
+                },
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(), 
+              child: Text('Cancelar')
+            ),
+            TextButton(
+              onPressed: () => _search(), 
+              child: Text('Filtrar')
+            ),
+          ],
+        );
+      });
+  }
+
+  void _search() {
+    if(_filter.isEmpty){
+      return; 
+    }
+
+    List<Meme> filteredList = [];
+    for (var meme in _memes) {
+      if(meme.submissionTitle.toLowerCase().contains(_filter.toLowerCase())){
+        filteredList.add(meme);
+      }
+    }
+
+    setState(() {
+      _memes = filteredList;
+      _isFiltered = true;
+    });
+
+    Navigator.of(context).pop();
   }
 }
