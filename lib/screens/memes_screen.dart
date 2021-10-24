@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_memes_parcial/components/loader_component.dart';
@@ -54,6 +56,23 @@ class _MemesScreenState extends State<MemesScreen> {
     setState(() {
       _showLoader = true;
     });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if(connectivityResult == ConnectivityResult.none){
+      setState(() {
+        _showLoader = false;
+      });
+
+      await showAlertDialog(
+        context: context,
+        title: 'Error',
+        message: 'Lo sentimos, no tienes conexión a internet.',
+        actions: <AlertDialogAction>[
+          AlertDialogAction(key: null, label: 'Aceptar')  
+        ]
+      );
+      return;
+    }
 
     var url = Uri.parse('${Constans.apiUrl}/memes/?skip=0&limit=100');
     var response = await http.get(
