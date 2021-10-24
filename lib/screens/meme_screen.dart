@@ -38,6 +38,7 @@ class _MemeScreenState extends State<MemeScreen> {
 
   Widget _showMemeInfo() {
     return Container(
+      decoration: new BoxDecoration(color: Colors.red),
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
       child: Container(
